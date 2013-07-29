@@ -1,0 +1,20 @@
+#!/bin/sh
+
+echo "Mounting proc"
+mount -t proc /proc /proc
+mount -t sysfs none /sys
+/sbin/mdev -s
+
+echo "Starting sysytem loggers"
+syslogd
+klogd
+
+echo "Configuring loopback interface"
+ifconfig lo 127.0.0.1
+
+echo "Starting inetd"
+xinetd
+
+# start a shell
+
+busybox
